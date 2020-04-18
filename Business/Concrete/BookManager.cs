@@ -17,6 +17,8 @@ namespace Business.Concrete
 
         public void Add(Book book)
         {
+            CheckBookNameExists(book.Name);
+
             _bookDal.Add(book);
         }
 
@@ -43,6 +45,12 @@ namespace Business.Concrete
         public void Update(Book book)
         {
             _bookDal.Update(book);
+        }
+
+        private void CheckBookNameExists(string name)
+        {
+            if (_bookDal.Get(b => b.Name == name) != null)
+                throw new Exception("Bu kitap adı zaten mevcut");
         }
     }
 }
